@@ -74,7 +74,6 @@ namespace ariel {
             for (std::vector<int>::size_type i = sortedList.size() - 1; i > index; i--) {
                 sortedList[i] = sortedList[i - 1];  // Shift elements to the right
             }
-
             sortedList[index] = number;  // Insert the number at the correct position
 
         }
