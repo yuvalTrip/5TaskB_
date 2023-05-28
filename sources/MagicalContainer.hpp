@@ -15,6 +15,13 @@ namespace ariel {
         std::vector<int> crossIterator;
         std::vector<int> ascendIterator;
     public:
+        int contains(int number) const
+        {
+            for (std::vector<int>::size_type i=0;i<elements.size();i++) {
+                if (elements[i]==number){return 1;}
+            }
+            return 0;
+        }
         void buildCrossVector(){
 //    int size_elements=elements_asc.size();
 //    std::cout<<"elements_asc.size: "<<elements_asc.size()<<std::endl;
@@ -144,11 +151,11 @@ namespace ariel {
 //                std::cout<<"container.ascendIterator.size(): "<<container.ascendIterator.size()<<std::endl;
                 if (container.ascendIterator.empty()) {
                     return NULL;
-                }else
-                {
+                }
+//                else{
 //                    std::cout<<"container.ascendIterator[0]: "<<container.ascendIterator[0]<<std::endl;
                     return &(container.ascendIterator[0]);
-                }
+//                }
             }
 
             // Get an AscendingIterator pointing to one position past the last element
@@ -159,10 +166,10 @@ namespace ariel {
                 if (container.ascendIterator.empty()) {
                     return NULL;
                 }
-                else{
-                    return &container.ascendIterator[container.ascendIterator.size()-1];
+//                else{
+                    return &container.ascendIterator[container.ascendIterator.size()-1]+1;
 
-                }
+//                }
             }
         };
 
@@ -172,6 +179,7 @@ namespace ariel {
             const MagicalContainer &container;
             size_t frontIndex;
             size_t backIndex;
+            size_t currentIndex=0;
             bool isFront;
 
         public:
@@ -181,19 +189,30 @@ namespace ariel {
             int operator*() const {
                 if (isFront) {
                     return container.elements[frontIndex];
-                } else {
-                    return container.elements[backIndex];
                 }
+//                else {
+                    return container.elements[backIndex];
+//                }
             }
 
-            SideCrossIterator &operator++() {
-                if (isFront) {
-                    ++frontIndex;
-                } else {
-                    --backIndex;
+//            SideCrossIterator &operator++() {
+//                if (isFront) {
+//                    ++frontIndex;
+//                } else {
+//                    --backIndex;
+//                }
+//                isFront = !isFront;
+//                return *this;
+//            }
+            int operator++(){//just iterate ovel the crossIterator
+                if (currentIndex+1>container.crossIterator.size()-1)
+                {
+                    throw std::invalid_argument("Out of bounds!");
                 }
-                isFront = !isFront;
-                return *this;
+                if(currentIndex<container.crossIterator.size() -1){
+                    currentIndex++;
+                }
+                return container.crossIterator[currentIndex];
             }
 
             bool operator==(const SideCrossIterator &other) const {
@@ -213,11 +232,11 @@ namespace ariel {
 //                std::cout<<"container.ascendIterator.size(): "<<container.ascendIterator.size()<<std::endl;
                 if (container.crossIterator.empty()) {
                     return NULL;
-                }else
-                {
+                }
+//                else{
 //                    std::cout<<"container.ascendIterator[0]: "<<container.ascendIterator[0]<<std::endl;
                     return &(container.crossIterator[0]);
-                }
+//                }
             }
 
             // Get a SideCrossIterator pointing to one position past the last element
@@ -228,10 +247,10 @@ namespace ariel {
                 if (container.crossIterator.empty()) {
                     return NULL;
                 }
-                else{
-                    return &container.crossIterator[container.crossIterator.size()-1];
+//                else{
+                    return &container.crossIterator[container.crossIterator.size()-1]+1;
 
-                }
+//                }
             }
 
         };
@@ -241,7 +260,7 @@ namespace ariel {
         private:
             const MagicalContainer &container;
             size_t index;
-
+            size_t currentIndex=0;
 
 
         public:
@@ -265,12 +284,22 @@ namespace ariel {
                 return container.elements[index];
             }
 
-            PrimeIterator &operator++() {
-                ++index;
-                while (index < container.size() && !isPrime(container.elements[index])) {
-                    ++index;
+//            PrimeIterator &operator++() {
+//                ++index;
+//                while (index < container.size() && !isPrime(container.elements[index])) {
+//                    ++index;
+//                }
+//                return *this;
+//            }
+            int operator++(){//just iterate ovel the crossIterator
+                if (currentIndex+1>container.primeIterator.size()-1)
+                {
+                    throw std::invalid_argument("Out of bounds!");
                 }
-                return *this;
+                if(currentIndex<container.primeIterator.size() -1){
+                    currentIndex++;
+                }
+                return container.primeIterator[currentIndex];
             }
 
             bool operator==(const PrimeIterator &other) const {
@@ -289,11 +318,12 @@ namespace ariel {
 //                std::cout<<"container.ascendIterator.size(): "<<container.ascendIterator.size()<<std::endl;
                 if (container.primeIterator.empty()) {
                     return NULL;
-                }else
-                {
+                }
+//                else
+//                {
 //                    std::cout<<"container.ascendIterator[0]: "<<container.ascendIterator[0]<<std::endl;
                     return &(container.primeIterator[0]);
-                }
+//                }
             }
             // Get a PrimeIterator pointing to one position past the last prime number
 //            PrimeIterator end() const {
@@ -303,10 +333,10 @@ namespace ariel {
                 if (container.primeIterator.empty()) {
                     return NULL;
                 }
-                else{
-                    return &container.primeIterator[container.primeIterator.size()-1];
+//                else{
+                    return &container.primeIterator[container.primeIterator.size()-1]+1;
 
-                }
+//                }
             }
         };
 
