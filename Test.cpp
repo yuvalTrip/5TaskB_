@@ -238,7 +238,12 @@ namespace ariel {
 //        std::cout << "it: "<< *it <<std::endl;
             ascendingElements.push_back(*it);
         }
-        CHECK(ascendingElements == std::vector<int>({-1, 4, 11, 13}));//Ascending order
+        CHECK(ascendingElements[0] == -1);//Ascending order
+        CHECK(ascendingElements[1] == 4);//Ascending order
+        CHECK(ascendingElements[2] == 11);//Ascending order
+        CHECK(ascendingElements[3] == 13);//Ascending order
+
+//        CHECK(ascendingElements == std::vector<int>({-1, 4, 11, 13}));//Ascending order
 
 //    std::vector<int> ascendElements(ascIter.begin(), ascIter.end());
 //    CHECK(ascendElements == std::vector<int>({-1, 4, 11, 13}));

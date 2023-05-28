@@ -139,6 +139,9 @@ namespace ariel {
             AscendingIterator(const MagicalContainer &container) : container(container), index(0) {}
 
             int operator*() const {
+                std::cout<<"[index]: "<<index<<std::endl;
+
+                std::cout<<"container.elements[index]: "<<container.elements[index]<<std::endl;
                 return container.elements[index];
             }
 
