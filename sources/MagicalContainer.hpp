@@ -93,12 +93,35 @@ namespace ariel {
 
         // Remove an element from the container
         void removeElement(int element) {
+            //delete from general vector
             for (auto it = elements.begin(); it != elements.end(); ++it) {
                 if (*it == element) {
                     elements.erase(it);
+                    std::cout<<"now the size is: "<<elements.size()<<std::endl;
+//                    std::cout<<"elements.begin(): "<<elements.begin()<<std::endl;
+//                    std::cout<<"elements.end(): "<<elements.end()<<std::endl;
+
                     break;
                 }
             }
+//            //delete from crossIterator
+//            for (auto it = crossIterator.begin(); it != crossIterator.end(); ++it) {
+//                if (*it == element) {
+//                    crossIterator.erase(it);
+//                }
+//            }
+//            //delete from primeIterator
+//            for (auto it = primeIterator.begin(); it != primeIterator.end(); ++it) {
+//                if (*it == element) {
+//                    primeIterator.erase(it);
+//                }
+//            }
+//            //delete from ascendIterator
+//            for (auto it = ascendIterator.begin(); it != ascendIterator.end(); ++it) {
+//                if (*it == element) {
+//                    ascendIterator.erase(it);
+//                }
+//            }
         }
 
         // Get the size of the container
@@ -157,11 +180,7 @@ namespace ariel {
                     return &(container.ascendIterator[0]);
 //                }
             }
-
             // Get an AscendingIterator pointing to one position past the last element
-//            AscendingIterator end() const {
-//                return AscendingIterator(*this);
-//            }
             const int * end(){
                 if (container.ascendIterator.empty()) {
                     return NULL;
@@ -172,7 +191,9 @@ namespace ariel {
 //                }
             }
         };
-
+//            AscendingIterator end() const {
+//                return AscendingIterator(*this);
+//            }
         // Iterator class for cross order traversal
         class SideCrossIterator {
         private:
