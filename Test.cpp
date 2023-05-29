@@ -205,8 +205,8 @@ namespace ariel {
 //        std::cout << "it: "<< *it <<std::endl;
             primeElements.push_back(*it);
         }
-        CHECK(primeElements[0] == 3);//Only primes number
-        CHECK(primeElements[1] == 2);//Only primes number
+        CHECK(primeElements[0] == 2);//Only primes number
+        CHECK(primeElements[1] == 3);//Only primes number
 
 //        CHECK(primeElements == std::vector<int>({2, 3}));//Only primes number
 
@@ -214,8 +214,8 @@ namespace ariel {
 //    CHECK(primeElements == std::vector<int>({2, 3}));
 
         //Operators checks
-        CHECK(primeIter.operator*() == 3);    //first element
-        CHECK(primeIter.operator++() == 2); // 2 3
+        CHECK(primeIter.operator*() == 2);    //first element
+        CHECK(primeIter.operator++() == 3); // 2 3
 ////    CHECK(primeIter.operator--() == 2);
 ////    CHECK_THROWS(primeIter.operator--()); // out of bounds
 ////    CHECK(primeIter.operator++() == 3);

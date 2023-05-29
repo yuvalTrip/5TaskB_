@@ -30,8 +30,8 @@ namespace ariel {
                 if (!elements.empty()) {
 
 //        std::cout<<"elements_asc.size>0: "<<elements_asc.size()<<std::endl;
-                //First I will sort it
-                //std::sort(elements.begin(), elements.end());
+//                First I will sort it -as needed in demo
+                std::sort(elements.begin(), elements.end());
                 //After the sort I will start to take one index from the start and other from the end
                 std::vector<int> sideCrossArray;
 ////
@@ -84,6 +84,8 @@ namespace ariel {
             {
                 primeIterator.push_back(element);
             }
+            std::sort(primeIterator.begin(), primeIterator.end());
+
             //add to ascending iterator
             insertIntoSortedList(ascendIterator, element);
             //add to cross iterator
