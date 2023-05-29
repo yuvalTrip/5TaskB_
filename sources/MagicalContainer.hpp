@@ -137,10 +137,9 @@ namespace ariel {
             // Default constructor
             AscendingIterator(const MagicalContainer &container) : container(container), index(0) {}
             //Copy constructor
-//            AscendingIterator(const MagicalContainer &container_)
-//            {
-//                container_.ascendIterator=container.ascendIterator;
-//            }
+//            AscendingIterator(const AscendingIterator& other)
+//                    : container(other.container), index(other.index) {}
+
             // Destructor
             ~AscendingIterator() = default;
 //            ~AscendingIterator() = default;
