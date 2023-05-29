@@ -23,6 +23,8 @@ namespace ariel {
 //    std::cout<<"container.getelements()[0]:"<<container.getElements()[0]<<std::endl;
 
         CHECK_NOTHROW(container.removeElement(1));
+//        delete container;
+//container.~MagicalContainer();
     }
 
     TEST_CASE("Add, Remove and Size") {
@@ -57,6 +59,7 @@ namespace ariel {
 //    std::cout<<"container.size():"<<container.size()<<std::endl;
         CHECK(container.size() == 1);
         CHECK(container.contains(2) == false);//because we removed it
+
     }
 
     TEST_CASE("Iterators with empty containers checks")
@@ -78,7 +81,6 @@ namespace ariel {
 //    std::cout<<"primeIter.end() :"<<primeIter.end() <<std::endl;
 
         CHECK(container.size() == 0);
-
 
     }
 
@@ -111,6 +113,10 @@ namespace ariel {
         CHECK(primeIter_.begin() == primeIter_.end());
         CHECK(container_1.size() == 1);
 
+//        ~primeIter_;
+//        ~primeIter;
+//        ~sCrossIter;
+//        ~ascIter;
     }
 
     TEST_CASE("SideCrossIterator odd and even number of elements")

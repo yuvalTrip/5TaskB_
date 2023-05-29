@@ -14,7 +14,10 @@ namespace ariel {
         std::vector<int> primeIterator;
         std::vector<int> crossIterator;
         std::vector<int> ascendIterator;
+
     public:
+
+        //Function check if elements contain given number (helper function for tests)
         int contains(int number) const
         {
             for (std::vector<int>::size_type i=0;i<elements.size();i++) {
@@ -22,29 +25,23 @@ namespace ariel {
             }
             return 0;
         }
+        //Function reorgnize the elemnts vector according to the Cross order
         void buildCrossVector(){
-//    int size_elements=elements_asc.size();
 //    std::cout<<"elements_asc.size: "<<elements_asc.size()<<std::endl;
-
 //            if (elements.size()>0) {
-                if (!elements.empty()) {
-
+                if (!elements.empty()) {//if the vector is not empty
 //        std::cout<<"elements_asc.size>0: "<<elements_asc.size()<<std::endl;
 //                First I will sort it -as needed in demo
                 std::sort(elements.begin(), elements.end());
                 //After the sort I will start to take one index from the start and other from the end
                 std::vector<int> sideCrossArray;
-////
-                std::vector<int>::size_type left = 0;                            // Left pointer starting from the beginning
-                std::vector<int>::size_type right = elements.size() - 1;      // Right pointer starting from the end
+                std::vector<int>::size_type left = 0;  // Left pointer starting from the beginning
+                std::vector<int>::size_type right = elements.size() - 1; // Right pointer starting from the end
                 //std::cout << "right: " << right << std::endl;
                 // Perform side cross operation
                 while (left <= right) {
                     //       std::cout << "left: " << left << " value="<<elements_asc[left]<<std::endl;
-
-
                     sideCrossArray.push_back(elements[left]);
-
                     if (left != right) {
                         sideCrossArray.push_back(elements[right]);
                         //          std::cout << "right: " << right << " value="<<elements_asc[right]<<std::endl;
@@ -59,17 +56,16 @@ namespace ariel {
                 crossIterator = {};
             }
             //   std::cout << "currentIndex-builder: "<< currentIndex <<std::endl;
-
         }
 
-
+//Function get vector and number and insert the number to it is correct index to keep the vector sorted (in O(n))
         void static insertIntoSortedList(std::vector<int>& sortedList, int number) {
             std::vector<int>::size_type index = 0;
             while (index < sortedList.size() && sortedList[index] < number) {
                 index++;
             }
 
-            sortedList.push_back(0);  // Make room for the new number at the end
+            sortedList.push_back(0);  // Make 'place' for the new number at the end
 
             for (std::vector<int>::size_type i = sortedList.size() - 1; i > index; i--) {
                 sortedList[i] = sortedList[i - 1];  // Shift elements to the right
@@ -79,11 +75,13 @@ namespace ariel {
         }
         // Add an element to the container
         void addElement(int element) {
-            elements.push_back(element);
-            if (PrimeIterator::isPrime(element)) //if this is a prime number we will add it to prime iterator
+            elements.push_back(element);// insert to general vector
+            //if this is a prime number we will add it to prime iterator
+            if (PrimeIterator::isPrime(element))
             {
                 primeIterator.push_back(element);
             }
+            //And sort primeIterator
             std::sort(primeIterator.begin(), primeIterator.end());
 
             //add to ascending iterator
@@ -94,18 +92,6 @@ namespace ariel {
 
         // Remove an element from the container
         void removeElement(int element) {
-            //delete from general vector
-//            for (auto it = elements.begin(); it != elements.end(); ++it) {
-//                if (*it == element) {
-//                    elements.erase(it);
-//                    std::cout<<"now the size is: "<<elements.size()<<std::endl;
-////                    std::cout<<"elements.begin(): "<<elements.begin()<<std::endl;
-////                    std::cout<<"elements.end(): "<<elements.end()<<std::endl;
-//
-//                    break;
-//                }
-//            }
-
             // Delete from general vector
             elements.erase(std::remove(elements.begin(), elements.end(), element), elements.end());
 
@@ -117,25 +103,6 @@ namespace ariel {
 
             // Delete from ascendIterator
             ascendIterator.erase(std::remove(ascendIterator.begin(), ascendIterator.end(), element), ascendIterator.end());
-
-//            //delete from crossIterator
-//            for (auto it = crossIterator.begin(); it != crossIterator.end(); ++it) {
-//                if (*it == element) {
-//                    crossIterator.erase(it);
-//                }
-//            }
-//            //delete from primeIterator
-//            for (auto it = primeIterator.begin(); it != primeIterator.end(); ++it) {
-//                if (*it == element) {
-//                    primeIterator.erase(it);
-//                }
-//            }
-//            //delete from ascendIterator
-//            for (auto it = ascendIterator.begin(); it != ascendIterator.end(); ++it) {
-//                if (*it == element) {
-//                    ascendIterator.erase(it);
-//                }
-//            }
         }
 
         // Get the size of the container
@@ -143,6 +110,23 @@ namespace ariel {
             return elements.size();
         }
 
+        //Destructor
+//        ~MagicalContainer()=default;
+//        {
+//            for (auto it = primeIterator.begin(); it != primeIterator.end(); ++it) {
+//                delete *it;
+//            }
+//            for (auto it = ascendIterator.begin(); it != ascendIterator.end(); ++it) {
+//                delete *it;
+//            }
+//            for (auto it = crossIterator.begin(); it != crossIterator.end(); ++it) {
+//                delete *it;
+//            }
+//            for (auto it = elements.begin(); it != elements.end(); ++it) {
+//                delete *it;
+//            }
+//
+//        }
         // Iterator class for ascending order traversal
         class AscendingIterator {
         private:
@@ -150,12 +134,19 @@ namespace ariel {
             size_t index;
 
         public:
+            // Default constructor
             AscendingIterator(const MagicalContainer &container) : container(container), index(0) {}
-
+            //Copy constructor
+//            AscendingIterator(const MagicalContainer &container_)
+//            {
+//                container_.ascendIterator=container.ascendIterator;
+//            }
+            // Destructor
+            ~AscendingIterator() = default;
+//            ~AscendingIterator() = default;
             int operator*() const {
-                std::cout<<"[index]: "<<index<<std::endl;
-
-                std::cout<<"container.elements[index]: "<<container.elements[index]<<std::endl;
+//                std::cout<<"[index]: "<<index<<std::endl;
+//                std::cout<<"container.elements[index]: "<<container.elements[index]<<std::endl;
                 return container.elements[index];
             }
 
@@ -311,7 +302,7 @@ namespace ariel {
                 }
                 return true;
             }
-
+////////////why need?
             PrimeIterator(const MagicalContainer &container) : container(container), index(0) {
                 while (index < container.size() && !isPrime(container.elements[index])) {
                     ++index;
