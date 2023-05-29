@@ -44,9 +44,7 @@ namespace ariel {
         // Remove element appears in few instances")
         container.removeElement(1);// now the container should be empty
         CHECK(container.size() == 0);
-
     }
-
     TEST_CASE("MagicalContainer contains checks")
     {
         MagicalContainer container;
