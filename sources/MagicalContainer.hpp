@@ -95,16 +95,29 @@ namespace ariel {
         // Remove an element from the container
         void removeElement(int element) {
             //delete from general vector
-            for (auto it = elements.begin(); it != elements.end(); ++it) {
-                if (*it == element) {
-                    elements.erase(it);
-                    std::cout<<"now the size is: "<<elements.size()<<std::endl;
-//                    std::cout<<"elements.begin(): "<<elements.begin()<<std::endl;
-//                    std::cout<<"elements.end(): "<<elements.end()<<std::endl;
+//            for (auto it = elements.begin(); it != elements.end(); ++it) {
+//                if (*it == element) {
+//                    elements.erase(it);
+//                    std::cout<<"now the size is: "<<elements.size()<<std::endl;
+////                    std::cout<<"elements.begin(): "<<elements.begin()<<std::endl;
+////                    std::cout<<"elements.end(): "<<elements.end()<<std::endl;
+//
+//                    break;
+//                }
+//            }
 
-                    break;
-                }
-            }
+            // Delete from general vector
+            elements.erase(std::remove(elements.begin(), elements.end(), element), elements.end());
+
+            // Delete from crossIterator
+            crossIterator.erase(std::remove(crossIterator.begin(), crossIterator.end(), element), crossIterator.end());
+
+            // Delete from primeIterator
+            primeIterator.erase(std::remove(primeIterator.begin(), primeIterator.end(), element), primeIterator.end());
+
+            // Delete from ascendIterator
+            ascendIterator.erase(std::remove(ascendIterator.begin(), ascendIterator.end(), element), ascendIterator.end());
+
 //            //delete from crossIterator
 //            for (auto it = crossIterator.begin(); it != crossIterator.end(); ++it) {
 //                if (*it == element) {
