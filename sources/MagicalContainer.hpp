@@ -220,7 +220,7 @@ namespace ariel {
                     //if (frontIndex>=backIndex+1)
                     if(frontIndex == container.size()/2+container.size()%2 && backIndex == container.size()/2-(1-container.size()%2))
                     {
-                        throw std::invalid_argument("Out of bounds!");
+                        throw std::runtime_error("Out of bounds!");
                     }
                     if (frontTurn  ) {
                     ++frontIndex;
@@ -302,7 +302,7 @@ namespace ariel {
                 std::vector<int>::size_type temp_indexPrime = static_cast<std::vector<int>::size_type>(container.primeIndexIterator[index]);
              //   std::cout<<"[temp_indexPrime]: "<<temp_indexPrime<<std::endl;
               //  std::cout<<"container.elements[temp_indexPrime: "<<container.elements[temp_indexPrime]<<std::endl;
-
+//                temp_indexPrime++;
 //                std::vector<int>::size_type temp_indexPrime=container.primeIndexIterator[index];
                 return container.elements[temp_indexPrime];
                 //return container.elements[index];
