@@ -12,9 +12,9 @@ namespace ariel {
         int contains(int number) const
         {
             for (std::vector<int>::size_type i=0;i<elements.size();i++) {
-                if (elements[i]==number){return true;}
+                if (elements[i]==number){return 0;}
             }
-            return false;
+            return 1;
         }
 
         void addElement(int element) {
@@ -48,6 +48,23 @@ namespace ariel {
                 return *this;
             }
 
+            // Default Destructor
+            ~AscendingIterator() = default;
+
+            // Move Constructor-added because of TIDY errors
+            AscendingIterator(AscendingIterator&& other) noexcept
+                    : container(other.container), index(other.index) {
+                other.index = 0;
+            }
+            // Move Assignment Operator-added because of TIDY errors
+            AscendingIterator& operator=(AscendingIterator&& other) noexcept {
+                if (this != &other) {
+                    container = other.container;
+                    index = other.index;
+                    other.index = 0;
+                }
+                return *this;
+            }
             bool operator==(const AscendingIterator& other) const {
                 return index == other.index;
             }
@@ -73,6 +90,8 @@ namespace ariel {
 
                 if (index>container.elements.size()-1)
                 {
+                    std::cout << "FALL HERE ="<<std::endl;
+
                     throw std::invalid_argument("Out of bounds!");
                 }
                 ++index;
@@ -113,6 +132,29 @@ namespace ariel {
                 return *this;
             }
 
+            // Default Destructor
+            ~SideCrossIterator() = default;
+
+            // Move Constructor-added because of TIDY errors
+            SideCrossIterator(SideCrossIterator&& other) noexcept
+                    : container(other.container), frontIndex(other.frontIndex), backIndex(other.backIndex),
+            frontTurn(other.frontTurn) {
+                other.frontIndex = 0;
+                other.backIndex = 0;
+            }
+
+            // Move Assignment Operator-added because of TIDY errors
+            SideCrossIterator& operator=(SideCrossIterator&& other) noexcept {
+                if (this != &other) {
+                    container = other.container;
+                    frontIndex = other.frontIndex;
+                    backIndex = other.backIndex;
+                    frontTurn = other.frontTurn;
+                    other.frontIndex = 0;
+                    other.backIndex = 0;
+                }
+                return *this;
+            }
             bool operator==(const SideCrossIterator& other) const {
 //                std::cout << "frontIndex ="<<frontIndex<<" other.frontIndex="<<other.frontIndex << " backIndex="<<backIndex<<" other.backIndex="<<other.backIndex<<std::endl;
 //                if (frontIndex==backIndex)
@@ -144,22 +186,23 @@ namespace ariel {
             std::vector<int>::value_type operator*() const {
                 if (frontTurn) {
                     return container.elements[frontIndex];
-                } else {
-                    return container.elements[backIndex];
                 }
+                return container.elements[backIndex];
+
             }
 
                 SideCrossIterator& operator++() {
-                    if (frontIndex>container.elements.size()-1)
+                    std::cout << "frontIndex ="<<frontIndex<<std::endl;
+                    std::cout << "backIndex ="<<backIndex<<std::endl;
+
+                    if (frontIndex>=backIndex+1)
                     {
                         throw std::invalid_argument("Out of bounds!");
                     }
                     if (frontTurn  ) {
-                    std::cout << "frontIndex ="<<frontIndex<<std::endl;
                     ++frontIndex;
 
                 } else {
-                    std::cout << "backIndex ="<<backIndex<<std::endl;
                     --backIndex;
 
                 }
@@ -185,7 +228,7 @@ namespace ariel {
             MagicalContainer& container;
             std::vector<int>::size_type index;
 
-            bool isPrime(int number) const {
+            bool static isPrime(int number) {
                 if (number < 2) {
                     return false;
                 }
@@ -211,7 +254,24 @@ namespace ariel {
                 index = other.index;
                 return *this;
             }
+            // Default Destructor
+            ~PrimeIterator() = default;
 
+            // Move Constructor-Added because of tidy errors
+            PrimeIterator(PrimeIterator&& other) noexcept
+                    : container(other.container), index(other.index) {
+                other.index = 0;
+            }
+
+            // Move Assignment Operator-Added because of tidy errors
+            PrimeIterator& operator=(PrimeIterator&& other) noexcept {
+                if (this != &other) {
+                    container = other.container;
+                    index = other.index;
+                    other.index = 0;
+                }
+                return *this;
+            }
             bool operator==(const PrimeIterator& other) const {
                 return index == other.index;
             }
