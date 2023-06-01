@@ -24,12 +24,8 @@ namespace ariel {
         }
 
         void removeElement(int element) {
-            for (auto it = elements.begin(); it != elements.end(); ++it) {
-                if (*it == element) {
-                    elements.erase(it);
-                    break;
-                }
-            }
+            // Delete from general vector
+            elements.erase(std::remove(elements.begin(), elements.end(), element), elements.end());
         }
 
         std::vector<int>::size_type size() const {
@@ -73,6 +69,12 @@ namespace ariel {
             }
 
             AscendingIterator& operator++() {
+                        std::cout << "index: "<< index <<std::endl;
+
+                if (index>container.elements.size()-1)
+                {
+                    throw std::invalid_argument("Out of bounds!");
+                }
                 ++index;
                 return *this;
             }
@@ -112,8 +114,15 @@ namespace ariel {
             }
 
             bool operator==(const SideCrossIterator& other) const {
-                std::cout << "frontIndex ="<<frontIndex<<" other.frontIndex="<<other.frontIndex << " backIndex="<<backIndex<<" other.backIndex="<<other.backIndex<<std::endl;
-                return frontIndex == other.frontIndex && backIndex == other.backIndex;
+//                std::cout << "frontIndex ="<<frontIndex<<" other.frontIndex="<<other.frontIndex << " backIndex="<<backIndex<<" other.backIndex="<<other.backIndex<<std::endl;
+//                if (frontIndex==backIndex)
+//                {
+//                    return false;
+//                }
+                 return frontIndex == other.frontIndex && backIndex == other.backIndex;
+
+//                return frontIndex == other.frontIndex && backIndex == other.backIndex && frontTurn == other.frontTurn;
+
             }
 
             bool operator!=(const SideCrossIterator& other) const {
@@ -140,12 +149,19 @@ namespace ariel {
                 }
             }
 
-            SideCrossIterator& operator++() {
-                if (frontTurn) {
+                SideCrossIterator& operator++() {
+                    if (frontIndex>container.elements.size()-1)
+                    {
+                        throw std::invalid_argument("Out of bounds!");
+                    }
+                    if (frontTurn  ) {
+                    std::cout << "frontIndex ="<<frontIndex<<std::endl;
                     ++frontIndex;
 
                 } else {
+                    std::cout << "backIndex ="<<backIndex<<std::endl;
                     --backIndex;
+
                 }
                 frontTurn = !frontTurn;
                 return *this;
@@ -157,9 +173,9 @@ namespace ariel {
 
              SideCrossIterator end() {
                 SideCrossIterator iter(container);
-                iter.frontIndex = container.size();
+                iter.frontIndex = container.size()/2+container.size()%2;
                 //iter.backIndex = static_cast<std::vector<int>::size_type>(-1);
-                 iter.backIndex = 0;
+                 iter.backIndex = container.size()/2-(1-container.size()%2);
                 return iter;
             }
         };

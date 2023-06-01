@@ -119,7 +119,7 @@ namespace ariel {
 //        ~ascIter;
     }
 
-    TEST_CASE("SideCrossIterator odd and even number of elements")
+    TEST_CASE("SideCrossIterator odd number of elements")
     {
         //Odd number
         MagicalContainer container;
@@ -131,11 +131,9 @@ namespace ariel {
         CHECK(container.size() == 5);
 
         MagicalContainer::SideCrossIterator crossIter(container);
-//    std::vector<int> crossOrderElements = crossIter.getSideCrossElements();
-//    std::vector<int> crossOrderElements(crossIter.begin(), crossIter.end());
         std::vector<int> crossOrderElements;
         for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
-            std::cout << "it: " << *it << std::endl;
+            // std::cout << "it: " << *it << std::endl;
             crossOrderElements.push_back(*it);
         }
         std::vector<int> temp_vector = std::vector<int>({1, 5, 2, 4, 3});
@@ -151,8 +149,16 @@ namespace ariel {
         CHECK(crossOrderElements[3] == 4);//One from the start, one from the end
         CHECK(crossOrderElements[4] == 3);//One from the start, one from the end
 //        CHECK(crossOrderElements == std::vector<int>({1, 5, 2, 4, 3}));//One from the start, one from the end
-
-        //Even number
+    }
+    TEST_CASE("SideCrossIterator even number of elements")
+    {
+    //Even number
+        MagicalContainer container;
+        container.addElement(1);
+        container.addElement(2);
+        container.addElement(3);
+        container.addElement(4);
+        container.addElement(5);
         container.addElement(6);
         CHECK(container.size() == 6);
         MagicalContainer::SideCrossIterator crossIter_(container);
@@ -176,13 +182,19 @@ namespace ariel {
 //    CHECK(crossOrderElements_ == std::vector<int>({1, 6, 2, 5, 3, 4}));//One from the start, one from the end
 //
         //Check operator
-        CHECK(crossIter_.operator*() == 1);    //first element
-        CHECK(crossIter_.operator++() == 6); // 1, 6, 2, 5, 3, 4
-        CHECK(crossIter_.operator++() == 2);
-        CHECK(crossIter_.operator++() == 5);
-        CHECK(crossIter_.operator++() == 3);
-        CHECK(crossIter_.operator++() == 4);
-        CHECK_THROWS(crossIter_.operator++()); // out of bounds
+        CHECK(crossIter_.operator*() == 1);    //first element // 1, 6, 2, 5, 3, 4
+//        CHECK(crossIter_.operator++() == 6);
+        CHECK(*crossIter_.operator++() == 6); // Dereference the iterator before comparison
+        CHECK(*crossIter_.operator++() == 2); // Dereference the iterator before comparison
+        CHECK(*crossIter_.operator++() == 5); // Dereference the iterator before comparison
+        CHECK(*crossIter_.operator++() == 3); // Dereference the iterator before comparison
+        CHECK(*crossIter_.operator++() == 4); // Dereference the iterator before comparison
+        CHECK_THROWS(*crossIter_.operator++()); // out of bounds
+
+//        CHECK(crossIter_.operator++() == 2);
+//        CHECK(crossIter_.operator++() == 5);
+//        CHECK(crossIter_.operator++() == 3);
+//        CHECK(crossIter_.operator++() == 4);
 
 ////    CHECK(crossIter_.operator--() == 3);
 ////    CHECK(crossIter_.operator--() == 5);
@@ -219,7 +231,9 @@ namespace ariel {
 
         //Operators checks
         CHECK(primeIter.operator*() == 2);    //first element
-        CHECK(primeIter.operator++() == 3); // 2 3
+        CHECK(*primeIter.operator++() == 3); // Dereference the iterator before comparison// 2 3
+
+//        CHECK(primeIter.operator++() == 3); // 2 3
 ////    CHECK(primeIter.operator--() == 2);
 ////    CHECK_THROWS(primeIter.operator--()); // out of bounds
 ////    CHECK(primeIter.operator++() == 3);
@@ -254,10 +268,17 @@ namespace ariel {
 
 //    Check operators
         CHECK(ascIter.operator*() == -1);    //first element
-        CHECK(ascIter.operator++() == 4); //second element
-        CHECK(ascIter.operator++() == 11); //third element
-        CHECK(ascIter.operator++() == 13); //fourth element
-        CHECK_THROWS(ascIter.operator++()); //out of bounds
+        CHECK(*ascIter.operator++() == 4); //second element// Dereference the iterator before comparison
+        CHECK(*ascIter.operator++() == 11); //third element// Dereference the iterator before comparison
+        CHECK(*ascIter.operator++() == 13); //fourth element// Dereference the iterator before comparison
+        CHECK(*ascIter.operator++() == 155); //fourth element// Dereference the iterator before comparison
+
+        CHECK_THROWS(*ascIter.operator++()); //out of bounds
+
+//        CHECK(ascIter.operator++() == 4); //second element
+//        CHECK(ascIter.operator++() == 11); //third element
+//        CHECK(ascIter.operator++() == 13); //fourth element
+//        CHECK_THROWS(ascIter.operator++()); //out of bounds
 ////    CHECK(ascIter.operator--() == 11); //third element
 ////    CHECK(ascIter.operator--() == 4); //second element
 ////    CHECK(ascIter.operator--() == -1); //first element
