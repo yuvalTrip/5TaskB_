@@ -134,7 +134,7 @@ namespace ariel {
 //    std::vector<int> crossOrderElements = crossIter.getSideCrossElements();
 //    std::vector<int> crossOrderElements(crossIter.begin(), crossIter.end());
         std::vector<int> crossOrderElements;
-        for (auto it = crossIter.begin(); it <= crossIter.end(); it++) {
+        for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
             std::cout << "it: " << *it << std::endl;
             crossOrderElements.push_back(*it);
         }
@@ -158,7 +158,7 @@ namespace ariel {
         MagicalContainer::SideCrossIterator crossIter_(container);
 
         std::vector<int> crossOrderElements_;
-        for (auto it = crossIter_.begin(); it <= crossIter_.end(); it++) {
+        for (auto it = crossIter_.begin(); it != crossIter_.end(); ++it) {
 //        std::cout << "it: "<< *it <<std::endl;
             crossOrderElements_.push_back(*it);
         }
@@ -205,7 +205,7 @@ namespace ariel {
         MagicalContainer::PrimeIterator primeIter(container);
 
         std::vector<int> primeElements;
-        for (auto it = primeIter.begin(); it <= primeIter.end(); it++) {
+        for (auto it = primeIter.begin(); it != primeIter.end(); ++it) {
 //        std::cout << "it: "<< *it <<std::endl;
             primeElements.push_back(*it);
         }
@@ -238,7 +238,7 @@ namespace ariel {
         MagicalContainer::AscendingIterator ascIter(elements_);
 
         std::vector<int> ascendingElements;
-        for (auto it = ascIter.begin(); it <= ascIter.end(); it++) {
+        for (auto it = ascIter.begin(); it != ascIter.end(); ++it) {
 //        std::cout << "it: "<< *it <<std::endl;
             ascendingElements.push_back(*it);
         }

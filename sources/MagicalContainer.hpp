@@ -9,6 +9,14 @@ namespace ariel {
         std::vector<int> elements;
 
     public:
+        int contains(int number) const
+        {
+            for (std::vector<int>::size_type i=0;i<elements.size();i++) {
+                if (elements[i]==number){return true;}
+            }
+            return false;
+        }
+
         void addElement(int element) {
             elements.push_back(element);
             //Sort 'elements' vector
@@ -104,6 +112,7 @@ namespace ariel {
             }
 
             bool operator==(const SideCrossIterator& other) const {
+                std::cout << "frontIndex ="<<frontIndex<<" other.frontIndex="<<other.frontIndex << " backIndex="<<backIndex<<" other.backIndex="<<other.backIndex<<std::endl;
                 return frontIndex == other.frontIndex && backIndex == other.backIndex;
             }
 
@@ -137,7 +146,6 @@ namespace ariel {
 
                 } else {
                     --backIndex;
-
                 }
                 frontTurn = !frontTurn;
                 return *this;
@@ -150,7 +158,8 @@ namespace ariel {
              SideCrossIterator end() {
                 SideCrossIterator iter(container);
                 iter.frontIndex = container.size();
-                iter.backIndex = static_cast<std::vector<int>::size_type>(-1);
+                //iter.backIndex = static_cast<std::vector<int>::size_type>(-1);
+                 iter.backIndex = 0;
                 return iter;
             }
         };
@@ -208,8 +217,6 @@ namespace ariel {
             }
 
             PrimeIterator& operator++() {
-                std::cout<<"im here BYW"<<std::endl;
-
                 ++index;
                 while (index < container.size() && !isPrime(container.elements[index])) {
                     ++index;
