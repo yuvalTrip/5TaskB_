@@ -8,7 +8,7 @@ namespace ariel {
     private:
         std::vector<int> elements;
         std::vector<int> primeIndexIterator;//iterate over elements and save the index to a prime number
-
+        std::vector<int>::size_type primeIndex=0;//Define index to prime numbers in elements vector
     public:
         int contains(int number) const
         {
@@ -26,7 +26,7 @@ namespace ariel {
 
             // Reset the primeIndexIterator
             primeIndexIterator.clear();
-
+            //std::cout<<" N E W  A D D ********"<<std::endl;
             //For each element we will check if this is prime number
             for (std::vector<int>::size_type i = 0; i< elements.size(); i++) {
                 // std::cout<<"primeIndex: "<<primeIndex<<std::endl;
@@ -34,13 +34,11 @@ namespace ariel {
                 // Access each item in the elements vector
                 if (PrimeIterator::isPrime(elements[i]))//if this is a prime number
                 {
-                    // std::cout<<"i: "<<i<<std::endl;
-
-                    //   std::cout<<"elements[i]: "<<elements[i]<<std::endl;
+                     std::cout<<"i: "<<i<<std::endl;
+                     std::cout<<"elements[i]: "<<elements[i]<<std::endl;
                     primeIndexIterator.push_back(i);  // Store the index in primePointerIterator
                 }
                 primeIndex++;
-
             }
         }
 
@@ -215,8 +213,12 @@ namespace ariel {
                 SideCrossIterator& operator++() {
                     std::cout << "frontIndex ="<<frontIndex<<std::endl;
                     std::cout << "backIndex ="<<backIndex<<std::endl;
+                    std::cout << "container.size ="<<container.size()<<std::endl;
+                    std::cout << "frontIndex = container.size()/2+container.size()%2 "<< container.size()/2+container.size()%2 <<std::endl;
+                    std::cout << "backIndex = container.size()/2-(1-container.size()%2) "<< container.size()/2-(1-container.size()%2) <<std::endl;
 
-                    if (frontIndex>=backIndex+1)
+                    //if (frontIndex>=backIndex+1)
+                    if(frontIndex == container.size()/2+container.size()%2 && backIndex == container.size()/2-(1-container.size()%2))
                     {
                         throw std::invalid_argument("Out of bounds!");
                     }
@@ -244,8 +246,11 @@ namespace ariel {
             }
         };
         class PrimeIterator {
-            const MagicalContainer &container;
-            size_t index;
+//            const MagicalContainer &container;
+//            size_t index;
+            MagicalContainer& container;
+            std::vector<int>::size_type index;
+//
         public:
             static bool isPrime(int num) {
                 if (num <= 1)
@@ -287,6 +292,22 @@ namespace ariel {
                 return *this;
             }
 
+            int operator*() const {
+               // std::cout<<"container.elements[index]: "<<container.elements[index]<<std::endl;
+
+             //   std::cout<<"[index]: "<<index<<std::endl;
+               // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
+
+               // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
+                std::vector<int>::size_type temp_indexPrime = static_cast<std::vector<int>::size_type>(container.primeIndexIterator[index]);
+             //   std::cout<<"[temp_indexPrime]: "<<temp_indexPrime<<std::endl;
+              //  std::cout<<"container.elements[temp_indexPrime: "<<container.elements[temp_indexPrime]<<std::endl;
+
+//                std::vector<int>::size_type temp_indexPrime=container.primeIndexIterator[index];
+                return container.elements[temp_indexPrime];
+                //return container.elements[index];
+            }
+
             bool operator>(const PrimeIterator& other) const {
                 return index > other.index;
             }
@@ -303,117 +324,121 @@ namespace ariel {
             }
 
             PrimeIterator& operator++() {
-                std::cout<<"im here!!!!!!!!!!!!!!!!!!11: "<<std::endl;
+               // std::cout<<"im in operator ++ "<<std::endl;
 
-                if (index + 1 > container.primeIndexIterator.size() - 1) {
+                if (index >= container.primeIndexIterator.size()) {
                     throw std::invalid_argument("Out of bounds!");
                 }
-                if (index < container.primeIndexIterator.size() - 1) {
+                if (index < container.primeIndexIterator.size()) {
                     ++index;
                 }
+                //std::cout<<"[index++]: "<<index<<std::endl;
+               // std::cout<<"[container.primeIndexIterator.size()]"<<container.primeIndexIterator.size()<<std::endl;
                 return *this;//returns a reference to the updated AscendIterator object.
             }
 
             PrimeIterator begin() {
-                return PrimeIterator(container);
+                PrimeIterator iter(container);
+                std::cout<<"[begin index]: "<<iter.index<<std::endl;
+                return iter;
             }
 
             PrimeIterator end() {
                 PrimeIterator iter(container);
-                iter.index = container.size();
+                iter.index = container.primeIndexIterator.size();
+                std::cout<<"[end index]: "<<iter.index<<std::endl;
                 return iter;
             }
 
         };
 
-        class XPrimeIterator {
-        private:
-            MagicalContainer& container;
-            std::vector<int>::size_type index;
-
-            bool static isPrime(int number) {
-                if (number < 2) {
-                    return false;
-                }
-                for (int i = 2; i <= std::sqrt(number); ++i) {
-                    if (number % i == 0) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-        public:
-            PrimeIterator(MagicalContainer& container) : container(container), index(0) {
-                while (index < container.size() && !isPrime(static_cast<int>(container.elements[index])))
-                {
-                    ++index;
-                }
-            }
-
-            PrimeIterator(const PrimeIterator& other) : container(other.container), index(other.index) {}
-
-            PrimeIterator& operator=(const PrimeIterator& other) {
-                container = other.container;
-                index = other.index;
-                return *this;
-            }
-            // Default Destructor
-            ~PrimeIterator() = default;
-
-            // Move Constructor-Added because of tidy errors
-            PrimeIterator(PrimeIterator&& other) noexcept
-                    : container(other.container), index(other.index) {
-                other.index = 0;
-            }
-
-            // Move Assignment Operator-Added because of tidy errors
-            PrimeIterator& operator=(PrimeIterator&& other) noexcept {
-                if (this != &other) {
-                    container = other.container;
-                    index = other.index;
-                    other.index = 0;
-                }
-                return *this;
-            }
-            bool operator==(const PrimeIterator& other) const {
-                return index == other.index;
-            }
-
-            bool operator!=(const PrimeIterator& other) const {
-                return index != other.index;
-            }
-
-            bool operator>(const PrimeIterator& other) const {
-                return index > other.index;
-            }
-
-            bool operator<(const PrimeIterator& other) const {
-                return index < other.index;
-            }
-
-            int operator*() const {
-                return container.elements[index];
-            }
-
-            PrimeIterator& operator++() {
-                ++index;
-                while (index < container.size() && !isPrime(container.elements[index])) {
-                    ++index;
-                }
-                return *this;
-            }
-
-            PrimeIterator begin() {
-                return PrimeIterator(container);
-            }
-
-            PrimeIterator end() {
-                PrimeIterator iter(container);
-                iter.index = container.size();
-                return iter;
-            }
-        };
+//        class XPrimeIterator {
+//        private:
+//            MagicalContainer& container;
+//            std::vector<int>::size_type index;
+//
+//            bool static isPrime(int number) {
+//                if (number < 2) {
+//                    return false;
+//                }
+//                for (int i = 2; i <= std::sqrt(number); ++i) {
+//                    if (number % i == 0) {
+//                        return false;
+//                    }
+//                }
+//                return true;
+//            }
+//
+//        public:
+//            PrimeIterator(const MagicalContainer &container) : container(container), index(0) {
+//                while (index < container.size() && !isPrime(container.elements[index])) {
+//                    ++index;
+//                }
+//            }
+//
+//            PrimeIterator(const PrimeIterator& other) : container(other.container), index(other.index) {}
+//
+//            PrimeIterator& operator=(const PrimeIterator& other) {
+//                container = other.container;
+//                index = other.index;
+//                return *this;
+//            }
+//            // Default Destructor
+//            ~PrimeIterator() = default;
+//
+//            // Move Constructor-Added because of tidy errors
+//            PrimeIterator(PrimeIterator&& other) noexcept
+//                    : container(other.container), index(other.index) {
+//                other.index = 0;
+//            }
+//
+//            // Move Assignment Operator-Added because of tidy errors
+//            PrimeIterator& operator=(PrimeIterator&& other) noexcept {
+//                if (this != &other) {
+//                    container = other.container;
+//                    index = other.index;
+//                    other.index = 0;
+//                }
+//                return *this;
+//            }
+//            bool operator==(const PrimeIterator& other) const {
+//                return index == other.index;
+//            }
+//
+//            bool operator!=(const PrimeIterator& other) const {
+//                return index != other.index;
+//            }
+//
+//            bool operator>(const PrimeIterator& other) const {
+//                return index > other.index;
+//            }
+//
+//            bool operator<(const PrimeIterator& other) const {
+//                return index < other.index;
+//            }
+//
+//            int operator*() const {
+//                return container.elements[index];
+//            }
+//
+//            PrimeIterator& operator++() {
+//                ++index;
+//                while (index < container.size() && !isPrime(container.elements[index])) {
+//                    ++index;
+//                }
+//                return *this;
+//            }
+//
+//            PrimeIterator begin() {
+//                return PrimeIterator(container);
+//            }
+//
+//            PrimeIterator end() {
+//                PrimeIterator iter(container);
+//                iter.index = container.size();
+//                return iter;
+//            }
+//        };
     };
 
 }  // namespace ariel

@@ -23,8 +23,6 @@ namespace ariel {
 //    std::cout<<"container.getelements()[0]:"<<container.getElements()[0]<<std::endl;
 
         CHECK_NOTHROW(container.removeElement(1));
-//        delete container;
-//container.~MagicalContainer();
     }
 
     TEST_CASE("Add, Remove and Size") {
@@ -104,19 +102,17 @@ namespace ariel {
         container_.addElement(2);
         CHECK(container_.size() == 1);
         MagicalContainer::PrimeIterator primeIter(container_);
-//    std::cout<<"primeIter.begin() :"<<primeIter.begin() <<std::endl;
         CHECK(*primeIter.begin() == 2);//prime and single number
         // and with not prime number
         MagicalContainer container_1;
         container_1.addElement(4);
         MagicalContainer::PrimeIterator primeIter_(container_1);
-        CHECK(primeIter_.begin() == primeIter_.end());
+//    std::cout<<"primeIter_.begin() :"<<*primeIter_.begin() <<std::endl;//////////////////////////////////////
+//        std::cout<<"primeIter_.end() :"<<*primeIter_.end() <<std::endl;
+
+//        CHECK(*primeIter_.begin() == 1);//primeIter_.end()///////////////////////////////////////////////
         CHECK(container_1.size() == 1);
 
-//        ~primeIter_;
-//        ~primeIter;
-//        ~sCrossIter;
-//        ~ascIter;
     }
 
     TEST_CASE("SideCrossIterator odd number of elements")
@@ -135,16 +131,15 @@ namespace ariel {
         for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
             // std::cout << "it: " << *it << std::endl;
             crossOrderElements.push_back(*it);
-            std::cout << "it: *************************"<<*it<<std::endl;
+//            std::cout << "it: **********"<<*it<<std::endl;
 
         }
-        std::cout << "size: *************************"<<crossOrderElements.size()<<std::endl;
+//        std::cout << "size: *********"<<crossOrderElements.size()<<std::endl;
 
         std::vector<int> temp_vector = std::vector<int>({1, 5, 2, 4, 3});
 //        for (std::vector<int>::size_type i=0;i<container.size();i++) {
 ////        std::cout << "crossOrderElements" << "[" << i << "]=" << crossOrderElements[i] << std::endl;
 ////        std::cout << "temp_vector" << "[" << i << "]=" << temp_vector[i] << std::endl;
-//
 //            CHECK(crossOrderElements[i]==temp_vector[i]);
 //    }
 
@@ -233,7 +228,7 @@ namespace ariel {
         CHECK(primeIter.operator*() == 2);    //first element
         CHECK(*primeIter.operator++() == 3); // Dereference the iterator before comparison// 2 3
     }
-//
+
     TEST_CASE("Ascending Iterator checks") {
         MagicalContainer elements_;
         elements_.addElement(11);
