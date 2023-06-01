@@ -7,6 +7,7 @@ namespace ariel {
     class MagicalContainer {
     private:
         std::vector<int> elements;
+        std::vector<int> primeIndexIterator;//iterate over elements and save the index to a prime number
 
     public:
         int contains(int number) const
@@ -17,10 +18,30 @@ namespace ariel {
             return 1;
         }
 
+
         void addElement(int element) {
             elements.push_back(element);
             //Sort 'elements' vector
             std::sort(elements.begin(), elements.end());
+
+            // Reset the primeIndexIterator
+            primeIndexIterator.clear();
+
+            //For each element we will check if this is prime number
+            for (std::vector<int>::size_type i = 0; i< elements.size(); i++) {
+                // std::cout<<"primeIndex: "<<primeIndex<<std::endl;
+
+                // Access each item in the elements vector
+                if (PrimeIterator::isPrime(elements[i]))//if this is a prime number
+                {
+                    // std::cout<<"i: "<<i<<std::endl;
+
+                    //   std::cout<<"elements[i]: "<<elements[i]<<std::endl;
+                    primeIndexIterator.push_back(i);  // Store the index in primePointerIterator
+                }
+                primeIndex++;
+
+            }
         }
 
         void removeElement(int element) {
@@ -222,8 +243,90 @@ namespace ariel {
                 return iter;
             }
         };
-
         class PrimeIterator {
+            const MagicalContainer &container;
+            size_t index;
+        public:
+            static bool isPrime(int num) {
+                if (num <= 1)
+                {return false;}
+                for (int i = 2; i <= std::sqrt(num); ++i) {
+                    if (num % i == 0)
+                    { return false;}
+                }
+                return true;
+            }
+            PrimeIterator(MagicalContainer& container) : container(container), index(0) {
+                while (index < container.size() && !isPrime(static_cast<int>(container.elements[index]))) {
+                    ++index;
+                }
+            }
+
+            PrimeIterator(const PrimeIterator& other) : container(other.container), index(other.index) {}
+            PrimeIterator& operator=(const PrimeIterator& other) {
+                container = other.container;
+                index = other.index;
+                return *this;
+            }
+            // Default Destructor
+            ~PrimeIterator() = default;
+
+            // Move Constructor-Added because of tidy errors
+            PrimeIterator(PrimeIterator&& other) noexcept
+                    : container(other.container), index(other.index) {
+                other.index = 0;
+            }
+
+            // Move Assignment Operator-Added because of tidy errors
+            PrimeIterator& operator=(PrimeIterator&& other) noexcept {
+                if (this != &other) {
+                    container = other.container;
+                    index = other.index;
+                    other.index = 0;
+                }
+                return *this;
+            }
+
+            bool operator>(const PrimeIterator& other) const {
+                return index > other.index;
+            }
+
+            bool operator<(const PrimeIterator& other) const {
+                return index < other.index;
+            }
+            bool operator==(const PrimeIterator& other) const {
+                return index == other.index;
+            }
+
+            bool operator!=(const PrimeIterator& other) const {
+                return index != other.index;
+            }
+
+            PrimeIterator& operator++() {
+                std::cout<<"im here!!!!!!!!!!!!!!!!!!11: "<<std::endl;
+
+                if (index + 1 > container.primeIndexIterator.size() - 1) {
+                    throw std::invalid_argument("Out of bounds!");
+                }
+                if (index < container.primeIndexIterator.size() - 1) {
+                    ++index;
+                }
+                return *this;//returns a reference to the updated AscendIterator object.
+            }
+
+            PrimeIterator begin() {
+                return PrimeIterator(container);
+            }
+
+            PrimeIterator end() {
+                PrimeIterator iter(container);
+                iter.index = container.size();
+                return iter;
+            }
+
+        };
+
+        class XPrimeIterator {
         private:
             MagicalContainer& container;
             std::vector<int>::size_type index;
@@ -242,7 +345,8 @@ namespace ariel {
 
         public:
             PrimeIterator(MagicalContainer& container) : container(container), index(0) {
-                while (index < container.size() && !isPrime(static_cast<int>(container.elements[index]))) {
+                while (index < container.size() && !isPrime(static_cast<int>(container.elements[index])))
+                {
                     ++index;
                 }
             }
