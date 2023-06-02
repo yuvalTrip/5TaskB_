@@ -43,6 +43,11 @@ namespace ariel {
         }
 
         void removeElement(int element) {
+            //Check if element exist in the container
+            if (contains(element)==1)
+            {
+                throw std::runtime_error("Element is not in the container!");
+            }
             // Delete from general vector
             elements.erase(std::remove(elements.begin(), elements.end(), element), elements.end());
         }
@@ -76,7 +81,11 @@ namespace ariel {
                 other.index = 0;
             }
             // Move Assignment Operator-added because of TIDY errors
-            AscendingIterator& operator=(AscendingIterator&& other) noexcept {
+            AscendingIterator& operator=(AscendingIterator&& other) {
+                if (this->container!= &other.container)
+                {
+                    std::runtime_error("Iterators are pointing at different containers!");
+                }
                 if (this != &other) {
                     container = other.container;
                     index = other.index;
@@ -111,7 +120,7 @@ namespace ariel {
                 {
                     //std::cout << "FALL HERE ="<<std::endl;
 
-                    throw std::invalid_argument("Out of bounds!");
+                    throw std::runtime_error("Out of bounds!");
                 }
                 ++index;
                 return *this;
@@ -191,9 +200,11 @@ namespace ariel {
             }
 
             bool operator>(const SideCrossIterator& other) const {
-                return (frontIndex > other.frontIndex && backIndex > other.backIndex) ||
-                       (frontIndex > other.frontIndex && !other.frontTurn) ||
-                       (!frontTurn && backIndex > other.backIndex);
+
+                return ((other<*this)== false && other!=*this );
+//                return (frontIndex > other.frontIndex && backIndex > other.backIndex) ||
+//                       (frontIndex > other.frontIndex && !other.frontTurn) ||
+//                       (!frontTurn && backIndex > other.backIndex);
             }
 
             bool operator<(const SideCrossIterator& other) const {
@@ -262,9 +273,14 @@ namespace ariel {
                 return true;
             }
             PrimeIterator(MagicalContainer& container) : container(container), index(0) {
-                while (index < container.size() && !isPrime(static_cast<int>(container.elements[index]))) {
-                    ++index;
-                }
+//                //print elemets array
+//                for (std::vector<int>::size_type i=0;i<container.elements.size();i++) {
+//                    std::cout << "elements[i]:" << container.elements[i]<<std::endl;  // 1 2 3 4 5 6
+//                }
+//                //print prime array
+//                for (std::vector<int>::size_type i=0;i<container.primeIndexIterator.size();i++) {
+//                    std::cout << "primeIndexIterator[i]:" << container.primeIndexIterator[i]<<std::endl;  // 1 2 3 4 5 6
+//                }
             }
 
             PrimeIterator(const PrimeIterator& other) : container(other.container), index(other.index) {}
@@ -295,18 +311,18 @@ namespace ariel {
             int operator*() const {
                // std::cout<<"container.elements[index]: "<<container.elements[index]<<std::endl;
 
-             //   std::cout<<"[index]: "<<index<<std::endl;
+               // std::cout<<"[index]: "<<index<<std::endl;
                // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
                // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
 
                // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
                 std::vector<int>::size_type temp_indexPrime = static_cast<std::vector<int>::size_type>(container.primeIndexIterator[index]);
-             //   std::cout<<"[temp_indexPrime]: "<<temp_indexPrime<<std::endl;
-              //  std::cout<<"container.elements[temp_indexPrime: "<<container.elements[temp_indexPrime]<<std::endl;
+               // std::cout<<"[temp_indexPrime]: "<<temp_indexPrime<<std::endl;
+               // std::cout<<"container.elements[temp_indexPrime********: "<<container.elements[temp_indexPrime]<<std::endl;
 //                temp_indexPrime++;
 //                std::vector<int>::size_type temp_indexPrime=container.primeIndexIterator[index];
                 return container.elements[temp_indexPrime];
-                //return container.elements[index];
+//                return container.elements[index];
             }
 
             bool operator>(const PrimeIterator& other) const {
@@ -328,7 +344,7 @@ namespace ariel {
                // std::cout<<"im in operator ++ "<<std::endl;
 
                 if (index >= container.primeIndexIterator.size()) {
-                    throw std::invalid_argument("Out of bounds!");
+                    throw std::runtime_error("Out of bounds!");
                 }
                 if (index < container.primeIndexIterator.size()) {
                     ++index;
