@@ -34,8 +34,8 @@ namespace ariel {
                 // Access each item in the elements vector
                 if (PrimeIterator::isPrime(elements[i]))//if this is a prime number
                 {
-                     std::cout<<"i: "<<i<<std::endl;
-                     std::cout<<"elements[i]: "<<elements[i]<<std::endl;
+                  //   std::cout<<"i: "<<i<<std::endl;
+                    // std::cout<<"elements[i]: "<<elements[i]<<std::endl;
                     primeIndexIterator.push_back(i);  // Store the index in primePointerIterator
                 }
                 primeIndex++;
@@ -105,11 +105,11 @@ namespace ariel {
             }
 
             AscendingIterator& operator++() {
-                        std::cout << "index: "<< index <<std::endl;
+                      //  std::cout << "index: "<< index <<std::endl;
 
                 if (index>container.elements.size()-1)
                 {
-                    std::cout << "FALL HERE ="<<std::endl;
+                    //std::cout << "FALL HERE ="<<std::endl;
 
                     throw std::invalid_argument("Out of bounds!");
                 }
@@ -211,11 +211,11 @@ namespace ariel {
             }
 
                 SideCrossIterator& operator++() {
-                    std::cout << "frontIndex ="<<frontIndex<<std::endl;
-                    std::cout << "backIndex ="<<backIndex<<std::endl;
-                    std::cout << "container.size ="<<container.size()<<std::endl;
-                    std::cout << "frontIndex = container.size()/2+container.size()%2 "<< container.size()/2+container.size()%2 <<std::endl;
-                    std::cout << "backIndex = container.size()/2-(1-container.size()%2) "<< container.size()/2-(1-container.size()%2) <<std::endl;
+//                    std::cout << "frontIndex ="<<frontIndex<<std::endl;
+//                    std::cout << "backIndex ="<<backIndex<<std::endl;
+//                    std::cout << "container.size ="<<container.size()<<std::endl;
+//                    std::cout << "frontIndex = container.size()/2+container.size()%2 "<< container.size()/2+container.size()%2 <<std::endl;
+//                    std::cout << "backIndex = container.size()/2-(1-container.size()%2) "<< container.size()/2-(1-container.size()%2) <<std::endl;
 
                     //if (frontIndex>=backIndex+1)
                     if(frontIndex == container.size()/2+container.size()%2 && backIndex == container.size()/2-(1-container.size()%2))
@@ -297,6 +297,7 @@ namespace ariel {
 
              //   std::cout<<"[index]: "<<index<<std::endl;
                // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
+               // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
 
                // std::cout<<"container.primeIndexIterator[index]: "<<container.primeIndexIterator[index]<<std::endl;
                 std::vector<int>::size_type temp_indexPrime = static_cast<std::vector<int>::size_type>(container.primeIndexIterator[index]);
@@ -339,14 +340,14 @@ namespace ariel {
 
             PrimeIterator begin() {
                 PrimeIterator iter(container);
-                std::cout<<"[begin index]: "<<iter.index<<std::endl;
+                //std::cout<<"[begin index]: "<<iter.index<<std::endl;
                 return iter;
             }
 
             PrimeIterator end() {
                 PrimeIterator iter(container);
                 iter.index = container.primeIndexIterator.size();
-                std::cout<<"[end index]: "<<iter.index<<std::endl;
+               // std::cout<<"[end index]: "<<iter.index<<std::endl;
                 return iter;
             }
 

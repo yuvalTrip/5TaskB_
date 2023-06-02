@@ -180,7 +180,7 @@ namespace ariel {
 //    CHECK(crossOrderElements_ == std::vector<int>({1, 6, 2, 5, 3, 4}));//One from the start, one from the end
 //
         //Check operator
-        std::cout << "************"<<std::endl;
+        //std::cout << "************"<<std::endl;
 
         CHECK(crossIter_.operator*() == 1);    //first element // 1, 6, 2, 5, 3, 4
 ////        CHECK(crossIter_.operator++() == 6);
@@ -257,7 +257,7 @@ namespace ariel {
 //    CHECK(ascendElements == std::vector<int>({-1, 4, 11, 13}));
 
 //    Check operators
-std::cout<<"CHECK CHECK CHECK      "<<std::endl;
+//std::cout<<"CHECK CHECK CHECK      "<<std::endl;
         CHECK(ascIter.operator*() == -1);    //first element
         CHECK(*ascIter.operator++() == 4); //second element// Dereference the iterator before comparison
         CHECK(*ascIter.operator++() == 11); //third element// Dereference the iterator before comparison
