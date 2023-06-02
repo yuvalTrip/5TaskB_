@@ -107,10 +107,10 @@ namespace ariel {
         MagicalContainer container_1;
         container_1.addElement(4);
         MagicalContainer::PrimeIterator primeIter_(container_1);
-//    std::cout<<"primeIter_.begin() :"<<*primeIter_.begin() <<std::endl;//////////////////////////////////////
+//    std::cout<<"primeIter_.begin() :"<<*primeIter_.begin() <<std::endl;/
 //        std::cout<<"primeIter_.end() :"<<*primeIter_.end() <<std::endl;
 
-//        CHECK(*primeIter_.begin() == 1);//primeIter_.end()///////////////////////////////////////////////
+//        CHECK(*primeIter_.begin() == 1);//primeIter_.end()/
         CHECK(container_1.size() == 1);
 
     }
@@ -189,14 +189,9 @@ namespace ariel {
         CHECK(*crossIter_.operator++() == 5); // Dereference the iterator before comparison
         CHECK(*crossIter_.operator++() == 3); // Dereference the iterator before comparison
         CHECK(*crossIter_.operator++() == 4); // Dereference the iterator before comparison
-//        std::cout << "************"<<std::endl;
-//
-//        CHECK_THROWS(*crossIter_.operator++()); // out of bounds////////////////////////////////////
-//
-////        CHECK(crossIter_.operator++() == 2);
-////        CHECK(crossIter_.operator++() == 5);
-////        CHECK(crossIter_.operator++() == 3);
-////        CHECK(crossIter_.operator++() == 4);
+
+//        CHECK_THROWS(*crossIter_.operator++()); // out of bounds///
+/
 
     }
 
