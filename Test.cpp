@@ -190,7 +190,7 @@ namespace ariel {
         CHECK(*crossIter_.operator++() == 4); // Dereference the iterator before comparison
 
 //        CHECK_THROWS(*crossIter_.operator++()); // out of bounds///
-/
+
 
     }
 
