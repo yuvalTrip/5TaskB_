@@ -57,7 +57,6 @@ namespace ariel {
 //    std::cout<<"container.size():"<<container.size()<<std::endl;
         CHECK(container.size() == 1);
         CHECK(container.contains(2) == 1);//because we removed it
-
     }
 
     TEST_CASE("Iterators with empty containers checks")
