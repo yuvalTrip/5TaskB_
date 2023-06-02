@@ -81,17 +81,21 @@ namespace ariel {
                 other.index = 0;
             }
             // Move Assignment Operator-added because of TIDY errors
-            AscendingIterator& operator=(AscendingIterator&& other) {
-                if (this->container!= &other.container)
-                {
-                    std::runtime_error("Iterators are pointing at different containers!");
-                }
+            AscendingIterator& operator=(AscendingIterator&& other) noexcept{
                 if (this != &other) {
                     container = other.container;
                     index = other.index;
                     other.index = 0;
                 }
                 return *this;
+//                if (this != &other) {//like x=y
+//                    container = other.container;
+//                    index = other.index;
+//                    other.index = 0;
+//                    return *this;
+//                }
+//                //if like x=x
+//                throw std::runtime_error("this is not the same AscendingIterator !");
             }
             bool operator==(const AscendingIterator& other) const {
                 return index == other.index;
@@ -201,7 +205,7 @@ namespace ariel {
 
             bool operator>(const SideCrossIterator& other) const {
 
-                return ((other<*this)== false && other!=*this );
+                return (!(other<*this) && other!=*this );
 //                return (frontIndex > other.frontIndex && backIndex > other.backIndex) ||
 //                       (frontIndex > other.frontIndex && !other.frontTurn) ||
 //                       (!frontTurn && backIndex > other.backIndex);
